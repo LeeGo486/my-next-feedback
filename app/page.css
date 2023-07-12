@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+.expend-container {
+    box-shadow: var(--ds-shadow-small);
+    overflow: hidden;
+}
+
+.expend {
+    transform: scaleY(2);
+}

@@ -2,13 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
-.expend-container {
-    box-shadow: var(--ds-shadow-small);
-    overflow: hidden;
+.expend {
+    width: 40rem;
+    height: 18rem;
+    border-radius: 0.5rem;
 }
 
-.expend {
-    transform: scaleY(2);
+.fold {
+    width: 35rem;
+    height: 4rem;
 }

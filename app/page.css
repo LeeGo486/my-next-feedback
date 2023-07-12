@@ -12,3 +12,25 @@
     width: 35rem;
     height: 4rem;
 }
+
+.emojiButton {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    transition: background .2s,border-color .2s;
+}
+
+.emojiButton:hover {
+    background: var(--ds-blue-300);
+    border-color: var(--ds-blue-300);
+}
+.emojiButton[aria-checked="true"] {
+    background: var(--ds-blue-300);
+    border-color: var(--ds-blue-300);
+}

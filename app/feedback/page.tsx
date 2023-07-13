@@ -29,24 +29,36 @@ const variantsTextarea = {
 export default function Home() {
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(-1);
+  const [isOpen, setIsOpen] = useState(false)
+  const [selected, setSelected] = useState(-1)
+  const [feedback, setFeedback] = useState("")
+  const [required, setRequired] = useState(false)
 
   useEffect(() => {
     if (!isOpen) {
       setSelected(-1)
+      setFeedback("")
     } else {
       textAreaRef.current?.focus()
     }
-  }, [isOpen, textAreaRef])
+  }, [isOpen, textAreaRef, feedback])
   const handleExpend = (index: number) => {
 
     setSelected(index)
-
     if (index === selected) {
       setIsOpen(isOpen => !isOpen)
     } else {
       setIsOpen(true)
+    }
+  }
+  const submitFeedback = () => {
+
+    console.info(`feedback length is: ${feedback.length}`)
+    if (!textAreaRef.current?.value) {
+      setRequired(true)
+      textAreaRef.current?.focus()
+    } else {
+      setRequired(false)
     }
   }
 
@@ -80,13 +92,20 @@ export default function Home() {
             ref={textAreaRef}
             initial={false} variants={variantsTextarea}
             animate={isOpen ? "active" : "inactive"}
+            required={required}
           />
+          <motion.p className="text-red-700 text ml-2"
+                    initial={{opacity: 0}}
+                    animate={required ? {opacity: 1} : {opacity: 0}}
+          >Please enter your feedback
+          </motion.p>
           <div className="w-full h-16
               border-t border-t-slate-400 bg-[var(--accents-2)] rounded-b-[1rem]
               flex flex-row-reverse items-center">
             <button className="w-20 h-10 border rounded-lg bg-slate-950 text-slate-50 mr-2"
-              onClick={() => {alert("Thanks for your feedback!")}}
-            >Send</button>
+                    onClick={submitFeedback}
+            >Send
+            </button>
           </div>
         </div>
       </motion.div>

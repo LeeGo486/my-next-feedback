@@ -30,6 +30,7 @@
     background: var(--ds-blue-300);
     border-color: var(--ds-blue-300);
 }
+
 .emojiButton[aria-checked="true"] {
     background: var(--ds-blue-300);
     border-color: var(--ds-blue-300);

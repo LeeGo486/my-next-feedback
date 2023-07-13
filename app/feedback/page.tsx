@@ -84,7 +84,7 @@ export default function Home() {
           <div className="w-full h-16
               border-t border-t-slate-400 bg-[var(--accents-2)] rounded-b-[1rem]
               flex flex-row-reverse items-center">
-            <button className="w-20 h-10 border rounded-lg bg-slate-950 text-slate-50 mr-1.5"
+            <button className="w-20 h-10 border rounded-lg bg-slate-950 text-slate-50 mr-2"
               onClick={() => {alert("Thanks for your feedback!")}}
             >Send</button>
           </div>

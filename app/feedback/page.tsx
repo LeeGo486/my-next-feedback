@@ -25,6 +25,19 @@ const variantsTextarea = {
     opacity: 0,
   }
 }
+const variantsSubmit = {
+  active: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: .1,
+    }
+  },
+  inactive: {
+    opacity: 0,
+    y: 15,
+  }
+}
 
 async function submitFeedbackInfo(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -36,7 +49,6 @@ export default function Home() {
 
   const [isOpen, setIsOpen] = useState(false)
   const [selected, setSelected] = useState(-1)
-  const [feedback, setFeedback] = useState("")
   const [required, setRequired] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
@@ -44,18 +56,21 @@ export default function Home() {
   useEffect(() => {
     if (!isOpen) {
       setSelected(-1)
-      setFeedback("")
+      setIsComplete(false)
     } else {
       textAreaRef.current?.focus()
     }
-  }, [isOpen, textAreaRef, feedback])
+  }, [isOpen, textAreaRef])
   const handleExpend = (index: number) => {
 
     setSelected(index)
+    textAreaRef.current?.focus()
+
     if (index === selected) {
       setIsOpen(isOpen => !isOpen)
     } else {
       setIsOpen(true)
+      setIsComplete(false)
     }
   }
   const submitFeedback = () => {
@@ -70,6 +85,9 @@ export default function Home() {
       res.then(() => {
         setIsLoading(false)
         setIsComplete(true)
+        if(textAreaRef.current) {
+          textAreaRef.current.value = ""
+        }
       })
     }
   }
@@ -96,7 +114,8 @@ export default function Home() {
             }
           </span>
         </div>
-        <div className={"w-full h-[calc(100%-3rem)] flex flex-col item-center justify-between" + ((isOpen && !isComplete) ? "" : " hidden")}>
+        <div
+          className={"w-full h-[calc(100%-3rem)] flex flex-col item-center justify-between" + ((isOpen && !isComplete) ? "" : " hidden")}>
           <motion.textarea disabled={isLoading}
                            className="w-96 h-32 border rounded-lg p-2 mx-auto focus:outline-none focus:ring-1 focus:ring-slate-800"
                            placeholder="Your feedback..."
@@ -113,11 +132,10 @@ export default function Home() {
           <div className="w-full h-16
               border-t border-t-slate-400 bg-[var(--accents-2)] rounded-b-[1rem]
               flex flex-row-reverse items-center">
-
             <motion.button disabled={isLoading} className={"w-20 h-10 mr-2 p-2 " +
               "border rounded-lg bg-[var(--ds-gray-1000)] text-slate-50 " +
               " flex items-center justify-center " +
-              " hover:"+ (!isLoading ? "bg-slate-800": "") + (isLoading ? " bg-slate-300" : "")}
+              " hover:" + (!isLoading ? "bg-slate-800" : "") + (isLoading ? " bg-slate-300" : "")}
                            whileTap={!isLoading ? {scale: .95} : {scale: 1}}
                            onClick={submitFeedback}
                            type="submit"
@@ -165,10 +183,28 @@ export default function Home() {
             </motion.button>
           </div>
         </div>
-        <div className={"w-full h-[calc(100%-3rem)] flex flex-col item-center justify-center" + ((isOpen && isComplete) ? "" : " hidden")}>
-          <p className={"m-auto h-10"}>Your feedback has been received!</p>
-          <p className={"m-auto h-10"}>Thank you for your help.</p>
-        </div>
+        <motion.div className={"w-full h-[calc(100%-3rem)] flex flex-col item-center justify-center" + ((isOpen && isComplete) ? "" : " hidden")}
+                    initial={{opacity: 0}}
+                    variants={variantsSubmit}
+                    animate={(isOpen && isComplete) ? "active" : "inactive"}
+        >
+          <p className={"mx-auto my-1 h-10"}>
+            <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="32"
+                 height="32">
+              <path
+                d="M512 929.959184c-230.4 0-417.959184-187.559184-417.959184-417.959184s187.559184-417.959184 417.959184-417.959184 417.959184 187.559184 417.959184 417.959184-187.559184 417.959184-417.959184 417.959184z"
+                fill="#1296db" data-spm-anchor-id="a313x.7781069.0.i2" className="selected"></path>
+              <path
+                d="M459.755102 637.387755c-5.22449 0-10.44898-2.089796-14.628571-6.269388l-104.489796-104.489796c-8.359184-8.359184-8.359184-21.420408 0-29.779591 8.359184-8.359184 21.420408-8.359184 29.779592 0l104.489795 104.489796c8.359184 8.359184 8.359184 21.420408 0 29.779591-4.702041 4.179592-9.926531 6.269388-15.15102 6.269388z"
+                fill="#DCFFFA"></path>
+              <path
+                d="M459.755102 637.387755c-5.22449 0-10.44898-2.089796-14.628571-6.269388-8.359184-8.359184-8.359184-21.420408 0-29.779591l208.979591-208.979592c8.359184-8.359184 21.420408-8.359184 29.779592 0 8.359184 8.359184 8.359184 21.420408 0 29.779592l-208.979592 208.979591c-4.702041 4.179592-9.926531 6.269388-15.15102 6.269388z"
+                fill="#DCFFFA" data-spm-anchor-id="a313x.7781069.0.i1" className=""></path>
+            </svg>
+          </p>
+          <p className={"mx-auto my-1 h-10"}>Your feedback has been received!</p>
+          <p className={"mx-auto h-10"}>Thank you for your help.</p>
+        </motion.div>
       </motion.div>
     </main>
   )

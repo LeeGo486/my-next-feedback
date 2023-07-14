@@ -27,7 +27,7 @@
 }
 
 .emojiButton:hover {
-    background: var(--ds-blue-300);
+    background-color: var(--ds-blue-300);
     border-color: var(--ds-blue-300);
 }
 

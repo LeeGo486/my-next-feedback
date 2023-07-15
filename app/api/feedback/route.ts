@@ -4,6 +4,7 @@ import {rateLimit} from "@/lib/redis";
 
 const redisKey = "xwp_"
 export async function POST(req: Request) {
+  const redisKey = "xwp_" + req.headers.get('x-real-ip')
   const redis = new Redis(process.env.REDIS_URL as string)
   const param = await req.json()
 
@@ -16,7 +17,7 @@ export async function POST(req: Request) {
   redis.set(redisKey, JSON.stringify(param))
   redis.quit()
 
-  return NextResponse.json({message: 'Too Many Requests'}, {status: 200})
+  return NextResponse.json({message: 'Success.'}, {status: 200})
 }
 
 

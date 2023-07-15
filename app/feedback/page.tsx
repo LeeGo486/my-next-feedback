@@ -43,7 +43,6 @@ async function submitFeedbackInfo(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-
 export default function Home() {
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -85,7 +84,7 @@ export default function Home() {
       res.then(() => {
         setIsLoading(false)
         setIsComplete(true)
-        if(textAreaRef.current) {
+        if (textAreaRef.current) {
           textAreaRef.current.value = ""
         }
       })
@@ -183,10 +182,11 @@ export default function Home() {
             </motion.button>
           </div>
         </div>
-        <motion.div className={"w-full h-[calc(100%-3rem)] flex flex-col item-center justify-center" + ((isOpen && isComplete) ? "" : " hidden")}
-                    initial={{opacity: 0}}
-                    variants={variantsSubmit}
-                    animate={(isOpen && isComplete) ? "active" : "inactive"}
+        <motion.div
+          className={"w-full h-[calc(100%-3rem)] flex flex-col item-center justify-center" + ((isOpen && isComplete) ? "" : " hidden")}
+          initial={{opacity: 0}}
+          variants={variantsSubmit}
+          animate={(isOpen && isComplete) ? "active" : "inactive"}
         >
           <p className={"mx-auto my-1 h-10"}>
             <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="32"

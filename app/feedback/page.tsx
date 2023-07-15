@@ -39,8 +39,14 @@ const variantsSubmit = {
   }
 }
 
-async function submitFeedbackInfo(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+async function submitFeedbackInfo(feedback: string) {
+  return fetch('/api/feedback', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(feedback),
+  })
 }
 
 export default function Home() {
@@ -80,7 +86,7 @@ export default function Home() {
       setRequired(false)
       setIsLoading(true)
 
-      const res = submitFeedbackInfo(1000)
+      const res = submitFeedbackInfo(textAreaRef.current.value)
       res.then(() => {
         setIsLoading(false)
         setIsComplete(true)

@@ -40,13 +40,20 @@ const variantsSubmit = {
 }
 
 async function submitFeedbackInfo(feedback: string) {
-  return fetch('/api/feedback', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(feedback),
-  })
+  try {
+    const response = await fetch('/api/feedback', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({feedback}),
+    })
+
+    return await response.json()
+  } catch (e) {
+    console.info(`feedback error message is: ${JSON.stringify(e)}`)
+  }
+  return
 }
 
 export default function Home() {
@@ -78,7 +85,7 @@ export default function Home() {
       setIsComplete(false)
     }
   }
-  const submitFeedback = () => {
+  const submitFeedback = async () => {
     if (!textAreaRef.current?.value) {
       setRequired(true)
       textAreaRef.current?.focus()
@@ -86,8 +93,7 @@ export default function Home() {
       setRequired(false)
       setIsLoading(true)
 
-      const res = submitFeedbackInfo(textAreaRef.current.value)
-      res.then(() => {
+      submitFeedbackInfo(textAreaRef.current.value).then(() => {
         setIsLoading(false)
         setIsComplete(true)
         if (textAreaRef.current) {

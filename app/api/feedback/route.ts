@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     return NextResponse.json({message: 'Too Many Requests'}, {status: 429})
   }
 
-  redis.set(redisKey, JSON.stringify(param))
+  redis.set(redisKey, JSON.stringify(param.feedback))
   redis.quit()
 
   return NextResponse.json({message: 'Success.'}, {status: 200})

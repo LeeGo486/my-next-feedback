@@ -39,14 +39,14 @@ const variantsSubmit = {
   }
 }
 
-async function submitFeedbackInfo(feedback: string) {
+async function submitFeedbackInfo(emojiIndex: number, feedback: string) {
   try {
     const response = await fetch('/api/feedback', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({feedback}),
+      body: JSON.stringify({index: emojiIndex, feedback}),
     })
 
     return await response.json()
@@ -64,6 +64,7 @@ export default function Home() {
   const [required, setRequired] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
+  const [emojiIndex, setEmojiIndex] = useState(-1)
 
   useEffect(() => {
     if (!isOpen) {
@@ -76,6 +77,7 @@ export default function Home() {
   const handleExpend = (index: number) => {
 
     setSelected(index)
+    setEmojiIndex(index)
     textAreaRef.current?.focus()
 
     if (index === selected) {
@@ -93,7 +95,7 @@ export default function Home() {
       setRequired(false)
       setIsLoading(true)
 
-      submitFeedbackInfo(textAreaRef.current.value).then(() => {
+      submitFeedbackInfo(emojiIndex, textAreaRef.current.value).then(() => {
         setIsLoading(false)
         setIsComplete(true)
         if (textAreaRef.current) {
@@ -119,7 +121,7 @@ export default function Home() {
           <span className="flex items-center justify-center gap-px">
             {
               emojis.map((emoji, index) => (
-                <button className="emojiButton" key={index} aria-checked={index === selected}
+                <button className="emojiButton" key={index} aria-checked={index === selected} value={index}
                         onClick={() => handleExpend(index)}>{emoji}</button>
               ))
             }

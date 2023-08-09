@@ -106,7 +106,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-screen box-border border-b-amber-700 ">
+    <div className="flex flex-col items-center justify-center w-full h-screen box-border border border-amber-700 ">
       <motion.div className="border border-slate-400 text-base "
                   initial={false} variants={variantsLayout}
                   animate={isOpen ? "active" : "inactive"}

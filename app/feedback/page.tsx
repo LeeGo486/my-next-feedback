@@ -79,6 +79,7 @@ export default function Home() {
     setSelected(index)
     setEmojiIndex(index)
     textAreaRef.current?.focus()
+    textAreaRef.current?.scrollIntoView()
 
     if (index === selected) {
       setIsOpen(isOpen => !isOpen)

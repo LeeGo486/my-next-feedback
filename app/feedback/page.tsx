@@ -79,7 +79,6 @@ export default function Home() {
     setSelected(index)
     setEmojiIndex(index)
     textAreaRef.current?.focus()
-    textAreaRef.current?.scrollIntoView()
 
     if (index === selected) {
       setIsOpen(isOpen => !isOpen)
@@ -87,6 +86,10 @@ export default function Home() {
       setIsOpen(true)
       setIsComplete(false)
     }
+
+    setTimeout(() => {
+      textAreaRef.current?.scrollIntoView()
+    }, 300)
   }
   const submitFeedback = async () => {
     if (!textAreaRef.current?.value) {

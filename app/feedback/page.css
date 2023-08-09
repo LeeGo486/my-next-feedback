@@ -32,6 +32,6 @@
 }
 
 .emojiButton[aria-checked="true"] {
-    background: var(--ds-blue-300);
-    border-color: var(--ds-blue-300);
+    background: var(--ds-gray-1000);
+    border-color: var(--ds-gray-1000);
 }

@@ -7,7 +7,7 @@ const emojis = ['🥰', '😄', '🤨', '😰']
 
 const variantsLayout = {
   active: {
-    width: '25rem',
+    width: '23.5rem',
     height: '18rem',
     borderRadius: '1rem',
   },
@@ -104,8 +104,81 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-screen border border-amber-700">
-
+    <div className="flex flex-col items-center justify-center w-full h-screen">
+      <motion.div className="border border-slate-400 text-base "
+                  initial={false} variants={variantsLayout}
+                  animate={isOpen ? "active" : "inactive"}
+                  transition={{
+                    type: "tween",
+                    ease: "linear",
+                    duration: .1,
+                  }}
+      >
+        <div className="w-full h-12 px-4 py-2 gap-2 flex items-center justify-center">
+          <p>Was this helpful?</p>
+          <span className="flex items-center justify-center gap-px">
+            {
+              emojis.map((emoji, index) => (
+                <button className="emojiButton" key={index} aria-checked={index === selected}
+                        onClick={() => handleExpend(index)}>{emoji}</button>
+              ))
+            }
+          </span>
+        </div>
+        <div className={"w-full h-[calc(100%-3rem)] flex flex-col item-center justify-between" + ((isOpen && !isComplete) ? "" : " hidden")}>
+          <motion.textarea disabled={isLoading}
+                           className="w-[22.5rem] h-32 border rounded-lg px-1 mx-auto focus:outline-none focus:ring-1 focus:ring-slate-800"
+                           placeholder="Your feedback..."
+                           ref={textAreaRef}
+                           initial={false} variants={variantsTextarea}
+                           animate={isOpen ? "active" : "inactive"}
+                           required={required}
+          />
+          <motion.p className="text-red-700 text ml-2"
+                    initial={{opacity: 0}}
+                    animate={required ? {opacity: 1} : {opacity: 0}}
+          >Please enter your feedback
+          </motion.p>
+          <div className="w-full h-16
+              border-t border-t-slate-400 bg-[var(--accents-2)] rounded-b-[1rem]
+              flex flex-row-reverse items-center">
+            <motion.button disabled={isLoading} className={"w-20 h-10 mr-2 p-2 " +
+              "border rounded-lg bg-[var(--ds-gray-1000)] text-slate-50 " +
+              " flex items-center justify-center " +
+              " hover:" + (!isLoading ? "bg-slate-800" : "") + (isLoading ? " bg-slate-300" : "")}
+                           whileTap={!isLoading ? {scale: .95} : {scale: 1}}
+                           onClick={submitFeedback}
+                           type="submit"
+            >
+              <motion.img src="/loading.svg" alt="loading" className={"w-6 h-6" + (isLoading ? "" : " hidden")}
+                          initial={false}
+                          animate={isLoading ? {
+                            rotate: 360,
+                            transition: {
+                              repeat: Infinity,
+                              repeatType: "loop",
+                              ease: "linear",
+                              duration: 1,
+                            }
+                          } : {}}
+              />
+              <span>Send</span>
+            </motion.button>
+          </div>
+        </div>
+        <motion.div
+          className={"w-full h-[calc(100%-3rem)] flex flex-col item-center justify-center" + ((isOpen && isComplete) ? "" : " hidden")}
+          initial={{opacity: 0}}
+          variants={variantsSubmit}
+          animate={(isOpen && isComplete) ? "active" : "inactive"}
+        >
+          <p className={"mx-auto my-1 h-10"}>
+            <img src="/success.svg" alt="success"/>
+          </p>
+          <p className={"mx-auto my-1 h-10"}>Your feedback has been received!</p>
+          <p className={"mx-auto h-10"}>Thank you for your help.</p>
+        </motion.div>
+      </motion.div>
     </div>
   )
 }

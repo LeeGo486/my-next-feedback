@@ -23,6 +23,22 @@
   }
 }
 
+@media only screen and (max-width: 320px) {
+    :root {
+        --foreground-rgb: 0, 0, 0;
+        --background-start-rgb: 102, 153, 204;
+        --background-end-rgb: 255, 255, 255;
+    }
+}
+
+@media only screen and (min-width: 321px) and (max-width: 768px) {
+  :root {
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 102, 153, 204;
+    --background-end-rgb: 255, 255, 255;
+  }
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
